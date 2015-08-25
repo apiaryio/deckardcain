@@ -9,7 +9,7 @@ Deckard Cain library identifies (media) type of API description files.
 ### Supported API desctiption formats
 
 - [API Blueprint](https://apiblueprint.org/) - `text/vnd.apiblueprint`
-- Apiary Blueprint (predecessor of API Blueprint) - `text/vnd.apiaryblueprint`
+- Apiary Blueprint (predecessor of API Blueprint) - `text/vnd.legacyblueprint`
 
 ## Install
 
@@ -30,7 +30,7 @@ HOST: http://example.com
 All Messages
 GET /messages
 < 200
-`) // 'text/vnd.apiaryblueprint
+`) // 'text/vnd.legacyblueprint
 
 dc.identify(`
 FORMAT: 1A
