@@ -13,27 +13,45 @@ const LEGACY_BLUEPRINT_TITLE = /\-{3} ([^\n\r]+ )?\-{3}([\n\r]{1,2}|$)/;
 function identify(source) {
   // Stay awhile and listen!
 
-  if (source.match(API_BLUEPRINT_HEADER)) {
-    // I spotted 'FORMAT: 1A' header. This is a clear clue that
-    // the file is API Blueprint.
-    return 'text/vnd.apiblueprint';
-  }
+  try {
+    const json = JSON.parse(source);
 
-  if (source.match(LEGACY_BLUEPRINT_TITLE)) {
-    // I spotted '--- Sample Title ---' title. This looks like
-    // we are dealing with the legacy Apiary Blueprint.
-    return 'text/vnd.legacyblueprint';
-  }
+    // It looks like the source is a valid JSON file. I suspect it to
+    // be a Swagger file.
+    if (json.swagger) {
+      // Indeed, we are dealing with Swagger file!
+      return 'application/swagger+json';
+    }
 
-  if (source.match(API_BLUEPRINT_RESPONSE)) {
-    // I can not see the '--- Sample Title ---' and at the same time
-    // there is something like '+ Response 200' in the document, which is
-    // pretty distinctive for API Blueprint.
-    return 'text/vnd.apiblueprint';
-  }
+    // Nothing I could identify. Maybe Horadric Cube could magically
+    // turn it into a rather smart casual leather armor?
+    return null;
+  } catch(e) {
+    // Oh! It almost blew up! I should be more careful. I'll better
+    // treat the item as a plain text file.
 
-  // I do not know. Very strange item!
-  return null;
+    if (source.match(API_BLUEPRINT_HEADER)) {
+      // I spotted 'FORMAT: 1A' header, which gives us a clear clue that
+      // the file is API Blueprint.
+      return 'text/vnd.apiblueprint';
+    }
+
+    if (source.match(LEGACY_BLUEPRINT_TITLE)) {
+      // I spotted '--- Sample Title ---' title. This looks like
+      // we are dealing with the legacy Apiary Blueprint.
+      return 'text/vnd.legacyblueprint';
+    }
+
+    if (source.match(API_BLUEPRINT_RESPONSE)) {
+      // I can not see the '--- Sample Title ---' and at the same time
+      // there is something like '+ Response 200' in the document, which is
+      // pretty distinctive for API Blueprint.
+      return 'text/vnd.apiblueprint';
+    }
+
+    // I do not know. Very strange item!
+    return null;
+  }
 }
 
 

@@ -84,6 +84,14 @@ FORMAT: 1A\r
       assert.equal(identify(source), null);
     });
   });
+
+  describe('Plain text file with arbitrary content', () => {
+    const source = 'Beware! Beyond lies mortal danger for the likes of you!';
+
+    it('is not identified', () => {
+      assert.equal(identify(source), null);
+    });
+  });
 });
 
 
@@ -159,6 +167,60 @@ Received Payload\r
 
     it('is identified as legacy Apiary Blueprint', () => {
       assert.equal(identify(source), 'text/vnd.legacyblueprint');
+    });
+  });
+});
+
+
+describe('Swagger', () => {
+  describe('Swagger file with arbitrary valid JSON content', () => {
+    const source = `
+{
+  "swagger": "2.0",
+  "host": "example.com",
+  "basePath": "/api",
+  "schemes": ["http"],
+  "paths": {}
+}
+    `;
+
+    it('is identified as Swagger', () => {
+      assert.equal(identify(source), 'application/swagger+json');
+    });
+  });
+
+  describe('Swagger file with arbitrary valid YAML content', () => {
+    const source = `
+---
+# comment
+swagger: "2.0"
+host: example.com
+basePath: /v1
+schemes:
+  - http
+    `;
+
+    it('is identified as Swagger', () => {
+      assert.equal(identify(source), 'application/swagger+yaml');
+    });
+  });
+
+  describe('GeoJSON file with arbitrary valid content', () => {
+    const source = `
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [125.6, 10.1]
+  },
+  "properties": {
+    "name": "Dinagat Islands"
+  }
+}
+    `;
+
+    it('is not identified', () => {
+      assert.equal(identify(source), null);
     });
   });
 });
