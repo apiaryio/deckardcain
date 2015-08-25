@@ -11,11 +11,6 @@ Deckard Cain library identifies (media) type of API description files.
 - [API Blueprint](https://apiblueprint.org/) - `text/vnd.apiblueprint`
 - Apiary Blueprint (predecessor of API Blueprint) - `text/vnd.apiaryblueprint`
 
-### Planned API description formats
-
-- [Swagger](http://swagger.io/) - `application/swagger+json` ([swagger-api/swagger-spec#110](https://github.com/swagger-api/swagger-spec/issues/110))
-- [RAML](http://raml.org/) - `application/raml+yaml`
-
 ## Install
 
 ```
