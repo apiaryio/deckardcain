@@ -9,7 +9,7 @@ Deckard Cain library identifies (media) type of API description files.
 ### Supported API desctiption formats
 
 - [API Blueprint](https://apiblueprint.org/) - `text/vnd.apiblueprint`
-- Apiary Blueprint (predecessor of API Blueprint) - `text/vnd.legacyblueprint`
+- Legacy Apiary Blueprint (predecessor of API Blueprint) - `text/vnd.legacyblueprint`
 
 ## Install
 
@@ -20,9 +20,9 @@ npm install deckardcain
 ## Basic Usage
 
 ```javascript
-const dc = require('deckardcain')
+import {identify} from '../lib/deckardcain';
 
-dc.identify(`
+identify(`
 HOST: http://example.com
 
 --- API Name ---
@@ -32,7 +32,7 @@ GET /messages
 < 200
 `) // 'text/vnd.legacyblueprint
 
-dc.identify(`
+identify(`
 FORMAT: 1A
 HOST: http://example.com
 
@@ -46,19 +46,6 @@ HOST: http://example.com
 
 + Response 200 (text/plain)
 `) // 'text/vnd.apiblueprint'
-```
-
-## Documentation
-
-### identify (function)
-
-```javascript
-/**
- * Identifies given source.
- * @param {string} source - The source code of API description file.
- * @returns {string|null} Media type of given file.
- */
-deckardcain.identify(source)
 ```
 
 ## Contribute

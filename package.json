@@ -4,11 +4,12 @@
   "description": "Identifies (media) type of API description files",
   "main": "lib/",
   "scripts": {
-    "lint": "eslint src",
+    "lint": "eslint src --ext .js,.es6 src",
+    "precompile": "npm run lint",
     "compile": "babel src/ --out-dir lib/",
-    "prepublish": "npm run lint && npm run compile",
-    "pretest": "npm run lint && npm run compile",
-    "test": "mocha lib/test"
+    "prepublish": "npm run compile",
+    "pretest": "npm run compile",
+    "test": "mocha --compilers es6:babel/register -R spec --recursive"
   },
   "repository": {
     "type": "git",
@@ -26,12 +27,12 @@
   "homepage": "https://github.com/apiaryio/deckardcain",
   "devDependencies": {
     "babel": "^5.0.9",
-    "mocha": "^2.2.1",
-    "chai": "^1.10.0",
-    "eslint": "^0.21.2",
     "babel-eslint": "^4.0.10",
-    "eslint-config-airbnb": "0.0.8"
+    "chai": "^3.2.0",
+    "eslint": "^1.2.1",
+    "eslint-config-airbnb": "0.0.8",
+    "eslint-plugin-react": "^3.2.3",
+    "mocha": "^2.2.1"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
