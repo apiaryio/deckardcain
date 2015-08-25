@@ -1,0 +1,37 @@
+{
+  "name": "deckardcain",
+  "version": "0.1.0",
+  "description": "Identifies (media) type of API description files",
+  "main": "lib/",
+  "scripts": {
+    "lint": "eslint src",
+    "compile": "babel src/ --out-dir lib/",
+    "prepublish": "npm run lint && npm run compile",
+    "pretest": "npm run lint && npm run compile",
+    "test": "mocha lib/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/apiaryio/deckardcain"
+  },
+  "keywords": [
+    "Apiary",
+    "API Blueprint"
+  ],
+  "author": "Apiary Inc <support@apiary.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/apiaryio/deckardcain/issues"
+  },
+  "homepage": "https://github.com/apiaryio/deckardcain",
+  "devDependencies": {
+    "babel": "^5.0.9",
+    "mocha": "^2.2.1",
+    "chai": "^1.10.0",
+    "eslint": "^0.21.2",
+    "babel-eslint": "^4.0.10",
+    "eslint-config-airbnb": "0.0.8"
+  },
+  "dependencies": {
+  }
+}
