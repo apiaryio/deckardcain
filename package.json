@@ -4,11 +4,11 @@
   "description": "Identifies (media) type of API description files",
   "main": "lib/",
   "scripts": {
-    "lint": "eslint lib",
+    "lint": "eslint src",
     "compile": "babel src/ --out-dir lib/",
     "prepublish": "npm run lint && npm run compile",
     "pretest": "npm run lint && npm run compile",
-    "test": "mocha lib/test",
+    "test": "mocha lib/test"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,9 @@
     "babel": "^5.0.9",
     "mocha": "^2.2.1",
     "chai": "^1.10.0",
-    "eslint": "^0.21.2"
+    "eslint": "^0.21.2",
+    "babel-eslint": "^4.0.10",
+    "eslint-config-airbnb": "0.0.8"
   },
   "dependencies": {
   }
