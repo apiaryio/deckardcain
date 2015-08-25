@@ -1,6 +1,6 @@
 # Deckard Cain
 
-*"As a token of my gratitude, I will identify items for you at no charge."*
+[*"As a token of my gratitude, I will identify items for you at no charge."*](https://www.youtube.com/watch?v=TEMCYmIYouE)
 
 ## Introduction
 
