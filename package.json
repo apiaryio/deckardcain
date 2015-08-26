@@ -9,7 +9,9 @@
     "compile": "babel src/ --out-dir lib/",
     "prepublish": "npm run compile",
     "pretest": "npm run compile",
-    "test": "mocha --compilers es6:babel/register -R spec --recursive"
+    "serverTest": "mocha --compilers es6:babel/register -R spec --recursive",
+    "browserTest": "karma start",
+    "test": "npm run serverTest && npm run browserTest"
   },
   "repository": {
     "type": "git",
@@ -28,10 +30,17 @@
   "devDependencies": {
     "babel": "^5.0.9",
     "babel-eslint": "^4.0.10",
+    "babelify": "^6.2.0",
     "chai": "^3.2.0",
     "eslint": "^1.2.1",
     "eslint-config-airbnb": "0.0.8",
     "eslint-plugin-react": "^3.2.3",
+    "karma": "^0.13.3",
+    "karma-browserify": "^4.2.1",
+    "karma-chai": "^0.1.0",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-mocha": "^0.2.0",
+    "karma-mocha-reporter": "^1.0.4",
     "mocha": "^2.2.1"
   },
   "dependencies": {}
