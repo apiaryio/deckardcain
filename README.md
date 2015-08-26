@@ -17,7 +17,7 @@ Deckard Cain library identifies (media) type of API description files.
 npm install deckardcain
 ```
 
-## Basic Usage
+## Usage
 
 ```javascript
 import {identify} from '../lib/deckardcain';
