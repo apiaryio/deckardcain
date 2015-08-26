@@ -1,8 +1,8 @@
 {
   "name": "deckardcain",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Identifies (media) type of API description files",
-  "main": "lib/",
+  "main": "lib/deckardcain",
   "scripts": {
     "lint": "eslint src --ext .js,.es6 src",
     "precompile": "npm run lint",
