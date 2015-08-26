@@ -19,6 +19,21 @@ FORMAT: 1A
     });
   });
 
+  describe('with UTF8 BOM and FORMAT header', () => {
+    const source = `\uFEFF
+FORMAT: 1A
+
+# /messages/{id}
+
+## DELETE
++ Response 204
+    `;
+
+    it('is identified as API Blueprint', () => {
+      assert.equal(identify(source), 'text/vnd.apiblueprint');
+    });
+  });
+
   describe('without FORMAT header but with any typical response', () => {
     const source = `
 # /messages/{id}
@@ -52,6 +67,37 @@ FORMAT: 1A
 describe('Legacy Apiary Blueprint', () => {
   describe('with arbitrary valid content', () => {
     const source = `
+HOST: http://example.com/api-path
+
+--- API Name ---
+
+All Messages
+POST /messages{?id,token,username}
+> X-Brewery-Since: 1564
+Sent Payload
+< 200
+< X-Brewery-Brand: Svijany
+Received Payload
+    `;
+
+    it('is identified as legacy Apiary Blueprint', () => {
+      assert.equal(identify(source), 'text/vnd.legacyblueprint');
+    });
+  });
+
+  describe('with minimal valid content', () => {
+    const source = `
+HOST: http://example.com/api-path
+--- ---
+    `;
+
+    it('is identified as legacy Apiary Blueprint', () => {
+      assert.equal(identify(source), 'text/vnd.legacyblueprint');
+    });
+  });
+
+  describe('with UTF8 BOM and arbitrary valid content', () => {
+    const source = `\uFEFF
 HOST: http://example.com/api-path
 
 --- API Name ---
