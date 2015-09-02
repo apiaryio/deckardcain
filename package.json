@@ -1,6 +1,6 @@
 {
   "name": "deckardcain",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Identifies (media) type of API description files",
   "main": "lib/deckardcain",
   "scripts": {
@@ -35,7 +35,6 @@
     "chai": "^3.2.0",
     "eslint": "^1.2.1",
     "eslint-config-airbnb": "0.0.8",
-    "eslint-plugin-react": "^3.2.3",
     "karma": "^0.13.3",
     "karma-browserify": "^4.2.1",
     "karma-chai": "^0.1.0",
