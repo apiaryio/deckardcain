@@ -34,6 +34,21 @@ FORMAT: 1A
     });
   });
 
+  describe('with \\r line breaks and arbitrary valid content', () => {
+    const source = `\r
+FORMAT: 1A\r
+\r
+# /messages/{id}\r
+\r
+## DELETE\r
++ Response 204\r
+    `;
+
+    it('is identified as API Blueprint', () => {
+      assert.equal(identify(source), 'text/vnd.apiblueprint');
+    });
+  });
+
   describe('without FORMAT header but with any typical response', () => {
     const source = `
 # /messages/{id}
@@ -109,6 +124,24 @@ Sent Payload
 < 200
 < X-Brewery-Brand: Svijany
 Received Payload
+    `;
+
+    it('is identified as legacy Apiary Blueprint', () => {
+      assert.equal(identify(source), 'text/vnd.legacyblueprint');
+    });
+  });
+
+  describe('with \\r line breaks and arbitrary valid content', () => {
+    const source = `\r
+--- API Name ---\r
+\r
+All Messages\r
+POST /messages{?id,token,username}\r
+> X-Brewery-Since: 1564\r
+Sent Payload\r
+< 200\r
+< X-Brewery-Brand: Svijany\r
+Received Payload\r
     `;
 
     it('is identified as legacy Apiary Blueprint', () => {
