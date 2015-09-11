@@ -1,8 +1,8 @@
 
-const API_BLUEPRINT_HEADER = /^[\uFEFF]?(((VERSION:( |\t)2)|(FORMAT:( |\t)(X-)?1A))\n)/i;
+const API_BLUEPRINT_HEADER = /^[\uFEFF]?(((VERSION:( |\t)2)|(FORMAT:( |\t)(X-)?1A))[\n\r]{1,2})/i;
 const API_BLUEPRINT_RESPONSE = /\+\s+Response\s+\d{3}/i;
 
-const LEGACY_BLUEPRINT_TITLE = /\-{3} ([^\n]+ )?\-{3}\n/;
+const LEGACY_BLUEPRINT_TITLE = /\-{3} ([^\n\r]+ )?\-{3}[\n\r]{1,2}/;
 
 
 /**
