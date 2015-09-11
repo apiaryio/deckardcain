@@ -62,6 +62,14 @@ FORMAT: 1A\r
     });
   });
 
+  describe('with no new line at the end', () => {
+    const source = 'FORMAT: 1A';
+
+    it('is identified as API Blueprint', () => {
+      assert.equal(identify(source), 'text/vnd.apiblueprint');
+    });
+  });
+
   describe('without FORMAT header or any typical response', () => {
     const source = `
 # Data Structures API
@@ -101,10 +109,7 @@ Received Payload
   });
 
   describe('with minimal valid content', () => {
-    const source = `
-HOST: http://example.com/api-path
---- ---
-    `;
+    const source = 'HOST: http://example.com/api-path\n--- ---\n';
 
     it('is identified as legacy Apiary Blueprint', () => {
       assert.equal(identify(source), 'text/vnd.legacyblueprint');
@@ -143,6 +148,14 @@ Sent Payload\r
 < X-Brewery-Brand: Svijany\r
 Received Payload\r
     `;
+
+    it('is identified as legacy Apiary Blueprint', () => {
+      assert.equal(identify(source), 'text/vnd.legacyblueprint');
+    });
+  });
+
+  describe('with no new line at the end', () => {
+    const source = 'HOST: http://example.com/api-path\n--- Sample API ---';
 
     it('is identified as legacy Apiary Blueprint', () => {
       assert.equal(identify(source), 'text/vnd.legacyblueprint');
