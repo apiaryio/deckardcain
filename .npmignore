@@ -4,3 +4,4 @@ npm-debug.log
 *.sublime-*
 test
 karma.conf.js
+.travis.yml
