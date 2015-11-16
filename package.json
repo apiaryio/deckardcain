@@ -33,6 +33,7 @@
     "babel-eslint": "^4.0.10",
     "babelify": "^6.2.0",
     "chai": "^3.2.0",
+    "dedent": "^0.6.0",
     "eslint": "^1.2.1",
     "karma": "^0.13.3",
     "karma-browserify": "^4.2.1",
