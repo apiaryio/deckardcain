@@ -1,3 +1,4 @@
+import YAML from 'js-yaml';
 
 const API_BLUEPRINT_HEADER = /^[\uFEFF]?(((VERSION:( |\t)2)|(FORMAT:( |\t)(X-)?1A))([\n\r]{1,2}|$))/i;
 const API_BLUEPRINT_RESPONSE = /\+\s+Response\s+\d{3}/i;
@@ -44,9 +45,22 @@ function identify(source) {
 
     // Nothing I could identify. Maybe Horadric Cube could magically
     // turn it into a rather smart casual leather armor?
+
     return null;
   } catch(e) {
-    return null;
+    // Well ok, it's not a JSON...Maybe we're dealing with YAML file?
+    try {
+      const yaml = YAML.safeLoad(source);
+
+      if (yaml.swagger) {
+        // Indeed, we are dealing with Swagger file!
+        return 'application/swagger+yaml';
+      }
+    } catch (e) {
+      // To be honest, I have no idea.
+      return null;
+    }
+
   }
 }
 
