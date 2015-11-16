@@ -5,3 +5,5 @@ node_modules
 # Ignore ES5 source directory on github.
 # http://mammal.io/articles/using-es6-today/#getting-started
 lib
+
+*.sublime-workspace
