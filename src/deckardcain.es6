@@ -47,7 +47,7 @@ function identify(source) {
     // turn it into a rather smart casual leather armor?
 
     return null;
-  } catch(e) {
+  } catch (jsonException) {
     // Well ok, it's not a JSON...Maybe we're dealing with YAML file?
     try {
       const yaml = YAML.safeLoad(source);
@@ -56,11 +56,10 @@ function identify(source) {
         // Indeed, we are dealing with Swagger file!
         return 'application/swagger+yaml';
       }
-    } catch (e) {
+    } catch (yamlException) {
       // To be honest, I have no idea.
       return null;
     }
-
   }
 }
 
