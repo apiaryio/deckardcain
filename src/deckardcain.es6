@@ -13,6 +13,25 @@ const LEGACY_BLUEPRINT_TITLE = /\-{3} ([^\n\r]+ )?\-{3}([\n\r]{1,2}|$)/;
 function identify(source) {
   // Stay awhile and listen!
 
+  if (source.match(API_BLUEPRINT_HEADER)) {
+    // I spotted 'FORMAT: 1A' header, which gives us a clear clue that
+    // the file is API Blueprint.
+    return 'text/vnd.apiblueprint';
+  }
+
+  if (source.match(LEGACY_BLUEPRINT_TITLE)) {
+    // I spotted '--- Sample Title ---' title. This looks like
+    // we are dealing with the legacy Apiary Blueprint.
+    return 'text/vnd.legacyblueprint';
+  }
+
+  if (source.match(API_BLUEPRINT_RESPONSE)) {
+    // I can not see the '--- Sample Title ---' and at the same time
+    // there is something like '+ Response 200' in the document, which is
+    // pretty distinctive for API Blueprint.
+    return 'text/vnd.apiblueprint';
+  }
+
   try {
     const json = JSON.parse(source);
 
@@ -27,29 +46,6 @@ function identify(source) {
     // turn it into a rather smart casual leather armor?
     return null;
   } catch(e) {
-    // Oh! It almost blew up! I should be more careful. I'll better
-    // treat the item as a plain text file.
-
-    if (source.match(API_BLUEPRINT_HEADER)) {
-      // I spotted 'FORMAT: 1A' header, which gives us a clear clue that
-      // the file is API Blueprint.
-      return 'text/vnd.apiblueprint';
-    }
-
-    if (source.match(LEGACY_BLUEPRINT_TITLE)) {
-      // I spotted '--- Sample Title ---' title. This looks like
-      // we are dealing with the legacy Apiary Blueprint.
-      return 'text/vnd.legacyblueprint';
-    }
-
-    if (source.match(API_BLUEPRINT_RESPONSE)) {
-      // I can not see the '--- Sample Title ---' and at the same time
-      // there is something like '+ Response 200' in the document, which is
-      // pretty distinctive for API Blueprint.
-      return 'text/vnd.apiblueprint';
-    }
-
-    // I do not know. Very strange item!
     return null;
   }
 }
