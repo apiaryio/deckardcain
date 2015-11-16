@@ -125,18 +125,18 @@ describe('Legacy Apiary Blueprint', () => {
   });
 
   describe('with UTF8 BOM and arbitrary valid content', () => {
-    const source = `\uFEFF
-HOST: http://example.com/api-path
+    const source = dedent`\uFEFF
+      HOST: http://example.com/api-path
 
---- API Name ---
+      --- API Name ---
 
-All Messages
-POST /messages{?id,token,username}
-> X-Brewery-Since: 1564
-Sent Payload
-< 200
-< X-Brewery-Brand: Svijany
-Received Payload
+      All Messages
+      POST /messages{?id,token,username}
+      > X-Brewery-Since: 1564
+      Sent Payload
+      < 200
+      < X-Brewery-Brand: Svijany
+      Received Payload
     `;
 
     it('is identified as legacy Apiary Blueprint', () => {
@@ -145,7 +145,7 @@ Received Payload
   });
 
   describe('with \\r line breaks and arbitrary valid content', () => {
-    const source = dedent`\r
+    const source = `\r
       --- API Name ---\r
       \r
       All Messages\r
@@ -166,21 +166,13 @@ Received Payload
     const source = 'HOST: http://example.com/api-path\n--- Sample API ---';
 
     it('is identified as legacy Apiary Blueprint', () => {
-      assert.equal(identify(source), 'application/swagger+json');
+      assert.equal(identify(source), 'text/vnd.legacyblueprint');
     });
   });
 });
 
 
 describe('Swagger', () => {
-
-  describe('Swagger file with arbitrary valid JSON content', () => {
-    const source = '{"swagger": "2.0", ..., "--- Ha ha ha ---"}';
-
-    it('is identified as Swagger', () => {
-      assert.equal(identify(source), 'application/swagger+json');
-    });
-  });
 
   describe('Swagger file with arbitrary valid JSON content', () => {
     const source = dedent`
@@ -270,4 +262,18 @@ describe('Swagger', () => {
       assert.equal(identify(source), null);
     });
   });
+
+  describe('Something that is Swagger but contains Blueprint stuff', () => {
+    const sources = [
+      '{"swagger": "2.0", "content": "--- Ha ha ha ---"}',
+      '{"swagger": "2.0", "content": "+ Response 200"}'
+    ];
+
+    it('is identified as Swagger', () => {
+      sources.forEach((source) => {
+        assert.equal(identify(source), 'application/swagger+json');
+      });
+
+    });
+  })
 });

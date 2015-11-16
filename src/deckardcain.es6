@@ -14,24 +14,7 @@ const LEGACY_BLUEPRINT_TITLE = /\-{3} ([^\n\r]+ )?\-{3}([\n\r]{1,2}|$)/;
 function identify(source) {
   // Stay awhile and listen!
 
-  if (source.match(API_BLUEPRINT_HEADER)) {
-    // I spotted 'FORMAT: 1A' header, which gives us a clear clue that
-    // the file is API Blueprint.
-    return 'text/vnd.apiblueprint';
-  }
-
-  if (source.match(LEGACY_BLUEPRINT_TITLE)) {
-    // I spotted '--- Sample Title ---' title. This looks like
-    // we are dealing with the legacy Apiary Blueprint.
-    return 'text/vnd.legacyblueprint';
-  }
-
-  if (source.match(API_BLUEPRINT_RESPONSE)) {
-    // I can not see the '--- Sample Title ---' and at the same time
-    // there is something like '+ Response 200' in the document, which is
-    // pretty distinctive for API Blueprint.
-    return 'text/vnd.apiblueprint';
-  }
+  let identifiedType = null;
 
   try {
     const json = JSON.parse(source);
@@ -40,13 +23,8 @@ function identify(source) {
     // be a Swagger file.
     if (json.swagger) {
       // Indeed, we are dealing with Swagger file!
-      return 'application/swagger+json';
+      identifiedType = 'application/swagger+json';
     }
-
-    // Nothing I could identify. Maybe Horadric Cube could magically
-    // turn it into a rather smart casual leather armor?
-
-    return null;
   } catch (jsonException) {
     // Well ok, it's not a JSON...Maybe we're dealing with YAML file?
     try {
@@ -54,12 +32,30 @@ function identify(source) {
 
       if (yaml.swagger) {
         // Indeed, we are dealing with Swagger file!
-        return 'application/swagger+yaml';
+        identifiedType = 'application/swagger+yaml';
       }
     } catch (yamlException) {
-      // To be honest, I have no idea.
-      return null;
+      // Well ok I am sorry, it's not a Swaggerish
     }
+  } finally {
+    if (identifiedType === null) {
+      if (source.match(API_BLUEPRINT_HEADER)) {
+        // I spotted 'FORMAT: 1A' header, which gives us a clear clue that
+        // the file is API Blueprint.
+        identifiedType = 'text/vnd.apiblueprint';
+      } else if (source.match(LEGACY_BLUEPRINT_TITLE)) {
+        // I spotted '--- Sample Title ---' title. This looks like
+        // we are dealing with the legacy Apiary Blueprint.
+        identifiedType = 'text/vnd.legacyblueprint';
+      } else if (source.match(API_BLUEPRINT_RESPONSE)) {
+        // I can not see the '--- Sample Title ---' and at the same time
+        // there is something like '+ Response 200' in the document, which is
+        // pretty distinctive for API Blueprint.
+        identifiedType = 'text/vnd.apiblueprint';
+      }
+    }
+
+    return identifiedType;
   }
 }
 
