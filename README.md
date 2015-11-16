@@ -33,7 +33,7 @@ HOST: http://example.com
 All Messages
 GET /messages
 < 200
-`) // 'text/vnd.legacyblueprint
+`) // 'text/vnd.legacyblueprint'
 
 identify(`
 FORMAT: 1A
