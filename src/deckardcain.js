@@ -1,10 +1,13 @@
 const API_BLUEPRINT_HEADER = /^[\uFEFF]?(((VERSION:( |\t)2)|(FORMAT:( |\t)(X-)?1A))([\n\r]{1,2}|$))/i;
-const API_BLUEPRINT_RESPONSE = /\+\s+(?:[Rr]esponse|[Rr]equest)\s+\d{3}/i;
+const API_BLUEPRINT_RESPONSE = /\+\s+(?:response|request)\s+\d{3}/i;
 
 const LEGACY_BLUEPRINT_TITLE = /\-{3} ([^\n\r]+ )?\-{3}([\n\r]{1,2}|$)/;
 
 const SWAGGER_JSON = /^[\uFEFF]?{\n?[\n\t ]*["']swagger["']: ["']\d\.\d["'],/i;
 const SWAGGER_YAML = /(?:^|\n)swagger: ["']\d\.\d["']\n/i;
+
+const REFRACT_API_DESCRIPTION_ELEMENT = /[\uFEFF]?\n?\s*["']element["']: ?["']category["']/i;
+const REFRACT_API_DESCRIPTION_CLASS = /(\s*["'][meta|classes]+["']: ?[\{|\[]){2}(\s*["'][api]+["']){1}/i;
 
 /**
  * Identifies given source.
@@ -27,6 +30,12 @@ function identify(source) {
   if (source.match(SWAGGER_JSON)) {
     // Indeed, we are dealing with Swagger file!
     return 'application/swagger+json';
+  }
+
+  if (source.match(REFRACT_API_DESCRIPTION_ELEMENT) &&
+      source.match(REFRACT_API_DESCRIPTION_CLASS)) {
+    // Good, found API description namespace
+    return 'application/vnd.refract.api-description';
   }
 
   if (source.match(LEGACY_BLUEPRINT_TITLE)) {

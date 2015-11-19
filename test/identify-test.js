@@ -277,3 +277,38 @@ describe('Swagger', () => {
     });
   })
 });
+
+
+describe('Refract API Description namespace', () => {
+  describe('valid json', () => {
+    const sources = [
+      dedent`
+      {
+        "element": "category",
+        "meta": {
+          "classes": [
+            "api"
+          ]
+        }
+      }`,
+      dedent`
+      {
+        "meta": {
+          "classes": [
+            "api"
+          ]
+        },
+        "element": "category"
+      }`,
+      '{"element":"category","meta":{"classes":["api"]}}'
+    ];
+
+    it('is identified as Refract', () => {
+      sources.forEach((source) => {
+        assert.equal(identify(source), 'application/vnd.refract.api-description');
+      });
+
+    });
+  });
+
+});
