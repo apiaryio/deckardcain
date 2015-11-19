@@ -16,38 +16,36 @@ const REFRACT_PARSE_RESULT_ELEMENT = /[\uFEFF]?\n?\s*["']element["']: ?["']parse
  * @returns {string|null} Media type of given file.
  */
 function identify(source) {
-  // Stay awhile and listen!
   if (source.match(API_BLUEPRINT_HEADER)) {
-    // I spotted 'FORMAT: 1A' header, which gives us a clear clue that
-    // the file is API Blueprint.
+    // There is 'FORMAT: 1A' present at the begining,
+    // so we can say it is API Blueprint
     return 'text/vnd.apiblueprint';
   }
 
   if (source.match(SWAGGER_YAML)) {
-    // Indeed, we are dealing with Swagger file!
     return 'application/swagger+yaml';
   }
 
   if (source.match(SWAGGER_JSON)) {
-    // Indeed, we are dealing with Swagger file!
     return 'application/swagger+json';
   }
 
   if (source.match(REFRACT_API_DESCRIPTION_ELEMENT) &&
       source.match(REFRACT_API_DESCRIPTION_CLASS) &&
       !source.match(REFRACT_PARSE_RESULT_ELEMENT)) {
-    // Good, found API description namespace
+    // File contains element `category` with class `api`, but
+    // does not contain element `parseResult`
+    // which would mean that file is `vnd.refract.parse-result
     return 'application/vnd.refract.api-description';
   }
 
   if (source.match(LEGACY_BLUEPRINT_TITLE)) {
-    // I spotted '--- Sample Title ---' title. This looks like
-    // we are dealing with the legacy Apiary Blueprint.
+    // Found '--- Sample Title ---' title which indicates legacy blueprint
     return 'text/vnd.legacyblueprint';
   }
 
   if (source.match(API_BLUEPRINT_RESPONSE)) {
-    // I can not see the '--- Sample Title ---' and at the same time
+    // Didn't find '--- Sample Title ---' and at the same time
     // there is something like '+ Response 200' in the document, which is
     // pretty distinctive for API Blueprint.
     return 'text/vnd.apiblueprint';
