@@ -265,8 +265,8 @@ describe('Swagger', () => {
 
   describe('Something that is Swagger but contains Blueprint stuff', () => {
     const sources = [
-      '{"swagger": "2.0", "content": "--- Ha ha ha ---"}',
-      '{"swagger": "2.0", "content": "+ Response 200"}'
+      '{"swagger":"2.0","content":"--- Ha ha ha ---"}',
+      '{"swagger":"2.0","content":"+ Response 200"}'
     ];
 
     it('is identified as Swagger', () => {
@@ -280,7 +280,7 @@ describe('Swagger', () => {
 
 
 describe('Refract API Description namespace', () => {
-  describe('valid json', () => {
+  describe('JSON file with arbitrary content', () => {
     const sources = [
       dedent`
       {
@@ -307,8 +307,18 @@ describe('Refract API Description namespace', () => {
       sources.forEach((source) => {
         assert.equal(identify(source), 'application/vnd.refract.api-description');
       });
-
     });
   });
 
+  describe('JSON file with parseResult namespace', () => {
+    const sources = [
+      '{"element":"parseResult","meta":{},"attributes":{},"content":[{"element":"category","meta":{"classes":["api"],"title":"DescriptionExample"}}]}'
+    ];
+
+    it('isn\'t identified as Refract', () => {
+      sources.forEach((source) => {
+        assert.notEqual(identify(source), 'application/vnd.refract.api-description');
+      });
+    });
+  })
 });
