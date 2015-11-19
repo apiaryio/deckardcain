@@ -4,15 +4,13 @@
   "description": "Identifies (media) type of API description files",
   "main": "lib/deckardcain",
   "scripts": {
-    "lint": "eslint src --ext .js,.es6 src",
+    "lint": "eslint src --ext .js src",
     "precompile": "npm run lint",
     "compile": "babel src/ --out-dir lib/",
     "prepublish": "npm run compile",
-    "preserver-test": "npm run compile",
-    "prebrowser-test": "npm run compile",
     "server-test": "mocha --compilers es6:babel/register -R spec --recursive",
     "browser-test": "karma start",
-    "test": "npm run server-test && npm run browser-test"
+    "test": "npm run server-test && npm run browser-test && npm run lint"
   },
   "repository": {
     "type": "git",
@@ -35,13 +33,13 @@
     "chai": "^3.2.0",
     "dedent": "^0.6.0",
     "eslint": "^1.2.1",
+    "eslint-config-airbnb": "^1.0.0",
     "karma": "^0.13.3",
     "karma-browserify": "^4.2.1",
     "karma-chai": "^0.1.0",
     "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.2.0",
     "karma-mocha-reporter": "^1.0.4",
-    "eslint-config-airbnb": "^1.0.0",
     "mocha": "^2.2.1"
   },
   "dependencies": {

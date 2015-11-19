@@ -1,6 +1,6 @@
 import dedent from 'dedent';
 import {assert} from 'chai';
-import {identify} from '../lib/deckardcain';
+import {identify} from '../src/deckardcain';
 
 
 describe('API Blueprint', () => {
