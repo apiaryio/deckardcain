@@ -6,9 +6,13 @@ const LEGACY_BLUEPRINT_TITLE = /\-{3} ([^\n\r]+ )?\-{3}([\n\r]{1,2}|$)/;
 const SWAGGER_JSON = /^[\uFEFF]?{\n?[\n\t ]*["']swagger["']: ?["']\d\.\d["'],/i;
 const SWAGGER_YAML = /(?:^|\n)swagger: ["']\d\.\d["']\n/i;
 
-const REFRACT_API_DESCRIPTION_ELEMENT = /[\uFEFF]?\n?\s*["']element["']: ?["']category["']/i;
-const REFRACT_API_DESCRIPTION_CLASS = /(\s*["'][meta|classes]+["']: ?[\{|\[]){2}(\s*["'][api]+["']){1}/i;
-const REFRACT_PARSE_RESULT_ELEMENT = /[\uFEFF]?\n?\s*["']element["']: ?["']parseResult["']/i;
+const REFRACT_API_DESCRIPTION_ELEMENT_JSON = /[\uFEFF]?\n?\s*["']element["']: ?["']category["']/i;
+const REFRACT_API_DESCRIPTION_CLASS_JSON = /(\s*["'][meta|classes]+["']: ?[\{|\[]){2}(\s*["'][api]+["']){1}/i;
+const REFRACT_PARSE_RESULT_ELEMENT_JSON = /[\uFEFF]?\n?\s*["']element["']: ?["']parseResult["']/i;
+
+const REFRACT_API_DESCRIPTION_ELEMENT_YAML = /[\uFEFF]?\n?\s*element: ?["']category["']/i;
+const REFRACT_API_DESCRIPTION_CLASS_YAML = /(\s*[meta|classes]+: ?){2}(\s*- ["'][api]+["']){1}/i;
+const REFRACT_PARSE_RESULT_ELEMENT_YAML = /[\uFEFF]?\n?\s*element: ?["']parseResult["']/i;
 
 /**
  * Identifies given source.
@@ -30,13 +34,22 @@ function identify(source) {
     return 'application/swagger+json';
   }
 
-  if (source.match(REFRACT_API_DESCRIPTION_ELEMENT) &&
-      source.match(REFRACT_API_DESCRIPTION_CLASS) &&
-      !source.match(REFRACT_PARSE_RESULT_ELEMENT)) {
+  if (source.match(REFRACT_API_DESCRIPTION_ELEMENT_JSON) &&
+      source.match(REFRACT_API_DESCRIPTION_CLASS_JSON) &&
+      !source.match(REFRACT_PARSE_RESULT_ELEMENT_JSON)) {
     // File contains element `category` with class `api`, but
     // does not contain element `parseResult`
     // which would mean that file is `vnd.refract.parse-result
-    return 'application/vnd.refract.api-description';
+    return 'application/vnd.refract.api-description+json';
+  }
+
+  if (source.match(REFRACT_API_DESCRIPTION_ELEMENT_YAML) &&
+      source.match(REFRACT_API_DESCRIPTION_CLASS_YAML) &&
+      !source.match(REFRACT_PARSE_RESULT_ELEMENT_YAML)) {
+    // File contains element `category` with class `api`, but
+    // does not contain element `parseResult`
+    // which would mean that file is `vnd.refract.parse-result
+    return 'application/vnd.refract.api-description+yaml';
   }
 
   if (source.match(LEGACY_BLUEPRINT_TITLE)) {

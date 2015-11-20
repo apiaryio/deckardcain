@@ -13,6 +13,7 @@ Deckard Cain library identifies (media) type of API description files.
 - [API Blueprint](https://apiblueprint.org/) - `text/vnd.apiblueprint`
 - Legacy Apiary Blueprint (predecessor of API Blueprint) - `text/vnd.legacyblueprint`
 - Swagger - `application/swagger+json` (according to [swagger-api/swagger-spec#110](https://github.com/swagger-api/swagger-spec/issues/110)) and `application/swagger+yaml`
+- [API Description Namespace](https://github.com/refractproject/refract-spec/blob/master/namespaces/api-description-namespace.md) - `application/vnd.refract.api-description+json` and `application/vnd.refract.api-description+yaml`
 
 ## Install
 
@@ -73,7 +74,7 @@ See also the `.travis.yml` file.
 
 ### Workflow
 
-Source code is located in the `./src` folder and gets automatically transpiled into `./lib` folder when `npm install`, `npm test` or `npm publish` is invoked. However, should you need to transpile it manually, use `npm run compile`.
+Source code is located in the `./src` folder and gets automatically transpiled into `./lib` folder when `npm install` or `npm publish` is invoked. However, should you need to transpile it manually, use `npm run compile`.
 
 ## Name
 

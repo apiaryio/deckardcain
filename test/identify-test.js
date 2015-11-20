@@ -303,9 +303,9 @@ describe('Refract API Description namespace', () => {
       '{"element":"category","meta":{"classes":["api"]}}'
     ];
 
-    it('is identified as Refract', () => {
+    it('is identified as Refract in JSON format', () => {
       sources.forEach((source) => {
-        assert.equal(identify(source), 'application/vnd.refract.api-description');
+        assert.equal(identify(source), 'application/vnd.refract.api-description+json');
       });
     });
   });
@@ -317,8 +317,55 @@ describe('Refract API Description namespace', () => {
 
     it('isn\'t identified as Refract', () => {
       sources.forEach((source) => {
-        assert.notEqual(identify(source), 'application/vnd.refract.api-description');
+        assert.notEqual(identify(source), 'application/vnd.refract.api-description+json');
       });
     });
-  })
+  });
+
+  describe('YAML file with arbitrary content', () => {
+    const sources = [
+      dedent`
+        element: "category"
+        meta:
+          classes:
+            - "api"
+        `
+      ,
+      dedent`
+        meta:
+          classes:
+            - "api"
+        element: "category"
+      `
+    ];
+
+    it('is identified as Refract in YAML format', () => {
+      sources.forEach((source) => {
+        assert.equal(identify(source), 'application/vnd.refract.api-description+yaml');
+      });
+    });
+  });
+
+  describe('YAML file with parseResult namespace', () => {
+    const sources = [
+      dedent`
+        element: "parseResult"
+        meta: {}
+        attributes: {}
+        content:
+          -
+            element: "category"
+            meta:
+              classes:
+                - "api"
+              title: "DescriptionExample"
+      `
+    ];
+
+    it('isn\'t identified as Refract', () => {
+      sources.forEach((source) => {
+        assert.notEqual(identify(source), 'application/vnd.refract.api-description+yaml');
+      });
+    });
+  });
 });
