@@ -3,8 +3,8 @@ const API_BLUEPRINT_RESPONSE = /\+\s+(?:response|request)\s+\d{3}/i;
 
 const LEGACY_BLUEPRINT_TITLE = /\-{3} ([^\n\r]+ )?\-{3}([\n\r]{1,2}|$)/;
 
-const SWAGGER_JSON = /^[\uFEFF]?{\n?[\n\t ]*["']swagger["']: ?["']\d\.\d["'],/i;
-const SWAGGER_YAML = /(?:^|\n)swagger: ["']\d\.\d["']\n/i;
+const SWAGGER_JSON = /^[\uFEFF]?{[\s\S]*["']swagger["']: ?["']\d\.\d["'],?/i;
+const SWAGGER_YAML = /(?:^|\n)\s*swagger: ["']\d\.\d["']\n/i;
 
 const REFRACT_API_DESCRIPTION_ELEMENT_JSON = /[\uFEFF]?\n?\s*["']element["']: ?["']category["']/i;
 const REFRACT_API_DESCRIPTION_CLASS_JSON = /(\s*["'][meta|classes]+["']: ?[\{|\[]){2}(\s*["'][api]+["']){1}/i;
@@ -20,7 +20,7 @@ const REFRACT_PARSE_RESULT_ELEMENT_YAML = /[\uFEFF]?\n?\s*element: ?["']parseRes
  * @returns {string|null} Media type of given file.
  */
 function identify(source) {
-  if (source.match(API_BLUEPRINT_HEADER)) {
+  if (source.substring(0, 11).match(API_BLUEPRINT_HEADER)) {
     // There is 'FORMAT: 1A' present at the begining,
     // so we can say it is API Blueprint
     return 'text/vnd.apiblueprint';
