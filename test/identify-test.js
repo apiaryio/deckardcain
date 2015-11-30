@@ -206,6 +206,22 @@ describe('Swagger', () => {
     });
   });
 
+  describe('Indented Swagger file with arbitrary valid YAML content', () => {
+    const source = `
+      ---
+      # comment
+      swagger: "2.0"
+      host: example.com
+      basePath: /v1
+      schemes:
+        - http
+    `;
+
+    it('is identified as Swagger', () => {
+      assert.equal(identify(source), 'application/swagger+yaml');
+    });
+  });
+
   describe('YAML file with arbitrary valid content', () => {
     const source = dedent`
       --- !clarkevans.com/^invoice
