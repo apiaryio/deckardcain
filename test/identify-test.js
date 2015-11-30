@@ -190,6 +190,22 @@ describe('Swagger', () => {
     });
   });
 
+  describe('Swagger file with arbitrary valid JSON content, but swagger key isn\'t first', () => {
+    const source = dedent`
+      {
+        "host": "example.com",
+        "basePath": "/api",
+        "schemes": ["http"],
+        "paths": {},
+        "swagger": "2.0"
+      }
+    `;
+
+    it('is identified as Swagger', () => {
+      assert.equal(identify(source), 'application/swagger+json');
+    });
+  });
+
   describe('Swagger file with arbitrary valid YAML content', () => {
     const source = dedent`
       ---
