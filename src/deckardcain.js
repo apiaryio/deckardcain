@@ -20,7 +20,7 @@ const REFRACT_PARSE_RESULT_ELEMENT_YAML = /[\uFEFF]?\n?\s*element: ?["']parseRes
  * @returns {string|null} Media type of given file.
  */
 function identify(source) {
-  if (source.substring(0, 11).match(API_BLUEPRINT_HEADER)) {
+  if (source.match(API_BLUEPRINT_HEADER)) {
     // There is 'FORMAT: 1A' present at the begining,
     // so we can say it is API Blueprint
     return 'text/vnd.apiblueprint';

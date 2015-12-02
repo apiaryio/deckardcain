@@ -19,6 +19,20 @@ describe('API Blueprint', () => {
     });
   });
 
+  describe('with FORMAT header using X-1A', () => {
+    const source = dedent`
+      FORMAT: X-1A
+      HOST: http://api.example.com/
+
+      # Example API
+    `;
+
+    it('is identified as API Blueprint', () => {
+      assert.equal(identify(source), 'text/vnd.apiblueprint');
+    });
+  });
+
+
   describe('with UTF8 BOM and FORMAT header', () => {
     const source = dedent`\uFEFF
       FORMAT: 1A
