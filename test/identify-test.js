@@ -21,7 +21,7 @@ describe('API Blueprint', () => {
 
   describe('with FORMAT header and a trailing whitespace', () => {
     const source = dedent`
-      FORMAT: 1A
+      FORMAT: 1A 
       HOST: https://link.com
 
       # Sample
