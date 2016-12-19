@@ -19,6 +19,50 @@ describe('API Blueprint', () => {
     });
   });
 
+  describe('with FORMAT header and a trailing whitespace', () => {
+    const source = dedent`
+      FORMAT: 1A 
+      HOST: https://link.com
+
+      # Sample
+
+      # Apps - Admin [/v4/admin/apps]
+      ## GET v4/admin/apps [GET /v4/admin/apps{?fields}]
+
+      **Get all apps**
+
+      + Parameters
+
+          + fields (optional, string) - Comma separated string
+    `;
+
+    it('is identified as API Blueprint', () => {
+      assert.equal(identify(source), 'text/vnd.apiblueprint');
+    });
+  });
+
+  describe('with FORMAT header and multiple trailing whitespaces', () => {
+    const source = dedent`
+      FORMAT: 1A      
+      HOST: https://link.com
+
+      # Sample
+
+      # Apps - Admin [/v4/admin/apps]
+      ## GET v4/admin/apps [GET /v4/admin/apps{?fields}]
+
+      **Get all apps**
+
+      + Parameters
+
+          + fields (optional, string) - Comma separated string
+    `;
+
+    it('is identified as API Blueprint', () => {
+      assert.equal(identify(source), 'text/vnd.apiblueprint');
+    });
+  });
+
   describe('with FORMAT header using X-1A', () => {
     const source = dedent`
       FORMAT: X-1A
