@@ -20,8 +20,9 @@ describe('API Blueprint', () => {
   });
 
   describe('with FORMAT header and a trailing whitespace', () => {
+    const whitespace = ' ';
     const source = dedent`
-      FORMAT: 1A
+      FORMAT: 1A${whitespace}
       HOST: https://link.com
 
       # Sample
@@ -42,8 +43,9 @@ describe('API Blueprint', () => {
   });
 
   describe('with FORMAT header and multiple trailing whitespaces', () => {
+    const whitespace = '     ';
     const source = dedent`
-      FORMAT: 1A
+      FORMAT: 1A${whitespace}
       HOST: https://link.com
 
       # Sample
