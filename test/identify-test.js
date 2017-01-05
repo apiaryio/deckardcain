@@ -21,7 +21,7 @@ describe('API Blueprint', () => {
 
   describe('with FORMAT header and a trailing whitespace', () => {
     const source = dedent`
-      FORMAT: 1A 
+      FORMAT: 1A
       HOST: https://link.com
 
       # Sample
@@ -43,7 +43,7 @@ describe('API Blueprint', () => {
 
   describe('with FORMAT header and multiple trailing whitespaces', () => {
     const source = dedent`
-      FORMAT: 1A      
+      FORMAT: 1A
       HOST: https://link.com
 
       # Sample
@@ -459,3 +459,16 @@ describe('Refract API Description namespace', () => {
     });
   });
 });
+
+
+[
+  {label: 'Empty string', input: ''},
+  {label: 'null', input: null},
+  {label: 'undefined', input: undefined},
+].forEach((scenario) => {
+  describe(scenario.label, () => {
+    it('is not identified', () => {
+      assert.isNull(identify(scenario.input));
+    });
+  });
+})
