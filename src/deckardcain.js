@@ -1,17 +1,17 @@
 export const API_BLUEPRINT_HEADER = /^[\uFEFF]?(((VERSION:( |\t)2)|(FORMAT:( |\t)(X-)?1A))\s*?([\n\r]{1,2}|$))/i;
 export const API_BLUEPRINT_RESPONSE = /\+\s+(?:response|request)\s+\d{3}/i;
 
-export const LEGACY_BLUEPRINT_TITLE = /\-{3} ([^\n\r]+ )?\-{3}([\n\r]{1,2}|$)/;
+export const LEGACY_BLUEPRINT_TITLE = /[-]{3}(?=( [^\n\r]+ | )[-]{3}([\n\r]{1,2}|[.]{0}))/i;
 
 export const SWAGGER_JSON = /^[\uFEFF]?{[\s\S]*["']swagger["']: ?["']\d\.\d["'],?/i;
 export const SWAGGER_YAML = /(?:^|\n)\s*swagger: ["']\d\.\d["']\n/i;
 
 export const REFRACT_API_DESCRIPTION_ELEMENT_JSON = /[\uFEFF]?\n?\s*["']element["']: ?["']category["']/i;
-export const REFRACT_API_DESCRIPTION_CLASS_JSON = /(\s*["'][meta|classes]+["']: ?[\{|\[]){2}(\s*["'][api]+["']){1}/i;
+export const REFRACT_API_DESCRIPTION_CLASS_JSON = /"meta"\s*:\s*\{\s*"classes"\:\s*\[\s*"api"\s*\]/i;
 export const REFRACT_PARSE_RESULT_ELEMENT_JSON = /[\uFEFF]?\n?\s*["']element["']: ?["']parseResult["']/i;
 
 export const REFRACT_API_DESCRIPTION_ELEMENT_YAML = /[\uFEFF]?\n?\s*element: ?["']category["']/i;
-export const REFRACT_API_DESCRIPTION_CLASS_YAML = /(\s*[meta|classes]+: ?){2}(\s*- ["'][api]+["']){1}/i;
+export const REFRACT_API_DESCRIPTION_CLASS_YAML = /\s*meta:\s+classes:\s+\-\s["']api["']/i;
 export const REFRACT_PARSE_RESULT_ELEMENT_YAML = /[\uFEFF]?\n?\s*element: ?["']parseResult["']/i;
 
 /**
