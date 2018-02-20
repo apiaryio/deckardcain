@@ -1,4 +1,10 @@
 // See https://github.com/apiaryio/javascript-style-guide/tree/master/linters
 {
+  "parserOptions": {
+    "sourceType": "script",
+    "ecmaFeatures": {
+      "impliedStrict": false
+    }
+  },
   "extends": "airbnb/base"
 }

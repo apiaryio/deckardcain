@@ -4,7 +4,8 @@
   "description": "Identifies (media) type of API description files",
   "main": "lib/deckardcain",
   "scripts": {
-    "lint": "eslint src --ext .js src",
+    "lint": "eslint src --ext .js src test",
+    "lint:fix": "eslint --ext .js src test --fix",
     "precompile": "npm run lint",
     "compile": "babel src/ --out-dir lib/",
     "prepublish": "npm run compile",
