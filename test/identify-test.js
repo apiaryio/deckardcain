@@ -1,10 +1,11 @@
 import dedent from 'dedent';
-import {assert} from 'chai';
-import {identify} from '../src/deckardcain';
+import { assert } from 'chai';
+
+import { identify } from '../src/deckardcain';
 
 
-describe('API Blueprint', () => {
-  describe('with FORMAT header', () => {
+describe('API Blueprint', function() {
+  describe('with FORMAT header', function() {
     const source = dedent`
       FORMAT: 1A
 
@@ -14,14 +15,14 @@ describe('API Blueprint', () => {
       + Response 204
     `;
 
-    it('is identified as API Blueprint', () => {
+    it('is identified as API Blueprint', function() {
       assert.equal(identify(source), 'text/vnd.apiblueprint');
     });
   });
 
-  describe('with FORMAT header and a trailing whitespace', () => {
+  describe('with FORMAT header and a trailing whitespace', function() {
     const source = dedent`
-      FORMAT: 1A 
+      FORMAT: 1A
       HOST: https://link.com
 
       # Sample
@@ -36,14 +37,14 @@ describe('API Blueprint', () => {
           + fields (optional, string) - Comma separated string
     `;
 
-    it('is identified as API Blueprint', () => {
+    it('is identified as API Blueprint', function() {
       assert.equal(identify(source), 'text/vnd.apiblueprint');
     });
   });
 
-  describe('with FORMAT header and multiple trailing whitespaces', () => {
+  describe('with FORMAT header and multiple trailing whitespaces', function() {
     const source = dedent`
-      FORMAT: 1A      
+      FORMAT: 1A
       HOST: https://link.com
 
       # Sample
@@ -58,12 +59,12 @@ describe('API Blueprint', () => {
           + fields (optional, string) - Comma separated string
     `;
 
-    it('is identified as API Blueprint', () => {
+    it('is identified as API Blueprint', function() {
       assert.equal(identify(source), 'text/vnd.apiblueprint');
     });
   });
 
-  describe('with FORMAT header using X-1A', () => {
+  describe('with FORMAT header using X-1A', function() {
     const source = dedent`
       FORMAT: X-1A
       HOST: http://api.example.com/
@@ -71,13 +72,13 @@ describe('API Blueprint', () => {
       # Example API
     `;
 
-    it('is identified as API Blueprint', () => {
+    it('is identified as API Blueprint', function() {
       assert.equal(identify(source), 'text/vnd.apiblueprint');
     });
   });
 
 
-  describe('with UTF8 BOM and FORMAT header', () => {
+  describe('with UTF8 BOM and FORMAT header', function() {
     const source = dedent`\uFEFF
       FORMAT: 1A
 
@@ -87,12 +88,12 @@ describe('API Blueprint', () => {
       + Response 204
     `;
 
-    it('is identified as API Blueprint', () => {
+    it('is identified as API Blueprint', function() {
       assert.equal(identify(source), 'text/vnd.apiblueprint');
     });
   });
 
-  describe('with \\r line breaks and arbitrary valid content', () => {
+  describe('with \\r line breaks and arbitrary valid content', function() {
     const source = dedent`\r
       FORMAT: 1A\r
       \r
@@ -102,12 +103,12 @@ describe('API Blueprint', () => {
       + Response 204\r
     `;
 
-    it('is identified as API Blueprint', () => {
+    it('is identified as API Blueprint', function() {
       assert.equal(identify(source), 'text/vnd.apiblueprint');
     });
   });
 
-  describe('without FORMAT header but with any typical response', () => {
+  describe('without FORMAT header but with any typical response', function() {
     const source = dedent`
       # /messages/{id}
 
@@ -115,20 +116,20 @@ describe('API Blueprint', () => {
       + Response 204
     `;
 
-    it('is identified as API Blueprint', () => {
+    it('is identified as API Blueprint', function() {
       assert.equal(identify(source), 'text/vnd.apiblueprint');
     });
   });
 
-  describe('with no new line at the end', () => {
+  describe('with no new line at the end', function() {
     const source = 'FORMAT: 1A';
 
-    it('is identified as API Blueprint', () => {
+    it('is identified as API Blueprint', function() {
       assert.equal(identify(source), 'text/vnd.apiblueprint');
     });
   });
 
-  describe('without FORMAT header or any typical response', () => {
+  describe('without FORMAT header or any typical response', function() {
     const source = dedent`
       # Data Structures API
 
@@ -138,23 +139,23 @@ describe('API Blueprint', () => {
       + redeem_by (number) - Date after which the coupon can no longer be redeemed
     `;
 
-    it('is not identified', () => {
+    it('is not identified', function() {
       assert.equal(identify(source), null);
     });
   });
 
-  describe('Plain text file with arbitrary content', () => {
+  describe('Plain text file with arbitrary content', function() {
     const source = 'Beware! Beyond lies mortal danger for the likes of you!';
 
-    it('is not identified', () => {
+    it('is not identified', function() {
       assert.equal(identify(source), null);
     });
   });
 });
 
 
-describe('Legacy Apiary Blueprint', () => {
-  describe('with arbitrary valid content', () => {
+describe('Legacy Apiary Blueprint', function() {
+  describe('with arbitrary valid content', function() {
     const source = dedent`
       HOST: http://example.com/api-path
 
@@ -169,20 +170,20 @@ describe('Legacy Apiary Blueprint', () => {
       Received Payload
     `;
 
-    it('is identified as legacy Apiary Blueprint', () => {
+    it('is identified as legacy Apiary Blueprint', function() {
       assert.equal(identify(source), 'text/vnd.legacyblueprint');
     });
   });
 
-  describe('with minimal valid content', () => {
+  describe('with minimal valid content', function() {
     const source = 'HOST: http://example.com/api-path\n--- ---\n';
 
-    it('is identified as legacy Apiary Blueprint', () => {
+    it('is identified as legacy Apiary Blueprint', function() {
       assert.equal(identify(source), 'text/vnd.legacyblueprint');
     });
   });
 
-  describe('with UTF8 BOM and arbitrary valid content', () => {
+  describe('with UTF8 BOM and arbitrary valid content', function() {
     const source = dedent`\uFEFF
       HOST: http://example.com/api-path
 
@@ -197,12 +198,12 @@ describe('Legacy Apiary Blueprint', () => {
       Received Payload
     `;
 
-    it('is identified as legacy Apiary Blueprint', () => {
+    it('is identified as legacy Apiary Blueprint', function() {
       assert.equal(identify(source), 'text/vnd.legacyblueprint');
     });
   });
 
-  describe('with \\r line breaks and arbitrary valid content', () => {
+  describe('with \\r line breaks and arbitrary valid content', function() {
     const source = `\r
       --- API Name ---\r
       \r
@@ -215,24 +216,23 @@ describe('Legacy Apiary Blueprint', () => {
       Received Payload\r
     `;
 
-    it('is identified as legacy Apiary Blueprint', () => {
+    it('is identified as legacy Apiary Blueprint', function() {
       assert.equal(identify(source), 'text/vnd.legacyblueprint');
     });
   });
 
-  describe('with no new line at the end', () => {
+  describe('with no new line at the end', function() {
     const source = 'HOST: http://example.com/api-path\n--- Sample API ---';
 
-    it('is identified as legacy Apiary Blueprint', () => {
+    it('is identified as legacy Apiary Blueprint', function() {
       assert.equal(identify(source), 'text/vnd.legacyblueprint');
     });
   });
 });
 
 
-describe('Swagger', () => {
-
-  describe('Swagger file with arbitrary valid JSON content', () => {
+describe('Swagger', function() {
+  describe('Swagger file with arbitrary valid JSON content', function() {
     const source = dedent`
       {
         "swagger": "2.0",
@@ -243,12 +243,12 @@ describe('Swagger', () => {
       }
     `;
 
-    it('is identified as Swagger', () => {
+    it('is identified as Swagger', function() {
       assert.equal(identify(source), 'application/swagger+json');
     });
   });
 
-  describe('Swagger file with arbitrary valid JSON content, but swagger key isn\'t first', () => {
+  describe('Swagger file with arbitrary valid JSON content, but swagger key isn\'t first', function() {
     const source = dedent`
       {
         "host": "example.com",
@@ -259,12 +259,12 @@ describe('Swagger', () => {
       }
     `;
 
-    it('is identified as Swagger', () => {
+    it('is identified as Swagger', function() {
       assert.equal(identify(source), 'application/swagger+json');
     });
   });
 
-  describe('Swagger file with arbitrary valid YAML content', () => {
+  describe('Swagger file with arbitrary valid YAML content', function() {
     const source = dedent`
       ---
       # comment
@@ -275,12 +275,12 @@ describe('Swagger', () => {
         - http
     `;
 
-    it('is identified as Swagger', () => {
+    it('is identified as Swagger', function() {
       assert.equal(identify(source), 'application/swagger+yaml');
     });
   });
 
-  describe('Indented Swagger file with arbitrary valid YAML content', () => {
+  describe('Indented Swagger file with arbitrary valid YAML content', function() {
     const source = `
       ---
       # comment
@@ -291,12 +291,12 @@ describe('Swagger', () => {
         - http
     `;
 
-    it('is identified as Swagger', () => {
+    it('is identified as Swagger', function() {
       assert.equal(identify(source), 'application/swagger+yaml');
     });
   });
 
-  describe('YAML file with arbitrary valid content', () => {
+  describe('YAML file with arbitrary valid content', function() {
     const source = dedent`
       --- !clarkevans.com/^invoice
       invoice: 34843
@@ -329,12 +329,12 @@ describe('Swagger', () => {
           Billsmer @ 338-4338.
       `;
 
-    it('is not identified', () => {
+    it('is not identified', function() {
       assert.equal(identify(source), null);
     });
   });
 
-  describe('GeoJSON file with arbitrary valid content', () => {
+  describe('GeoJSON file with arbitrary valid content', function() {
     const source = dedent`
       {
         "type": "Feature",
@@ -348,29 +348,28 @@ describe('Swagger', () => {
       }
     `;
 
-    it('is not identified', () => {
+    it('is not identified', function() {
       assert.equal(identify(source), null);
     });
   });
 
-  describe('Something that is Swagger but contains Blueprint stuff', () => {
+  describe('Something that is Swagger but contains Blueprint stuff', function() {
     const sources = [
       '{"swagger":"2.0","content":"--- Ha ha ha ---"}',
-      '{"swagger":"2.0","content":"+ Response 200"}'
+      '{"swagger":"2.0","content":"+ Response 200"}',
     ];
 
-    it('is identified as Swagger', () => {
+    it('is identified as Swagger', function() {
       sources.forEach((source) => {
         assert.equal(identify(source), 'application/swagger+json');
       });
-
     });
-  })
+  });
 });
 
 
-describe('Refract API Description namespace', () => {
-  describe('JSON file with arbitrary content', () => {
+describe('Refract API Description namespace', function() {
+  describe('JSON file with arbitrary content', function() {
     const sources = [
       dedent`
       {
@@ -390,53 +389,52 @@ describe('Refract API Description namespace', () => {
         },
         "element": "category"
       }`,
-      '{"element":"category","meta":{"classes":["api"]}}'
+      '{"element":"category","meta":{"classes":["api"]}}',
     ];
 
-    it('is identified as Refract in JSON format', () => {
+    it('is identified as Refract in JSON format', function() {
       sources.forEach((source) => {
         assert.equal(identify(source), 'application/vnd.refract.api-description+json');
       });
     });
   });
 
-  describe('JSON file with parseResult namespace', () => {
+  describe('JSON file with parseResult namespace', function() {
     const sources = [
-      '{"element":"parseResult","meta":{},"attributes":{},"content":[{"element":"category","meta":{"classes":["api"],"title":"DescriptionExample"}}]}'
+      '{"element":"parseResult","meta":{},"attributes":{},"content":[{"element":"category","meta":{"classes":["api"],"title":"DescriptionExample"}}]}',
     ];
 
-    it('isn\'t identified as Refract', () => {
+    it('isn\'t identified as Refract', function() {
       sources.forEach((source) => {
         assert.notEqual(identify(source), 'application/vnd.refract.api-description+json');
       });
     });
   });
 
-  describe('YAML file with arbitrary content', () => {
+  describe('YAML file with arbitrary content', function() {
     const sources = [
       dedent`
         element: "category"
         meta:
           classes:
             - "api"
-        `
-      ,
+      `,
       dedent`
         meta:
           classes:
             - "api"
         element: "category"
-      `
+      `,
     ];
 
-    it('is identified as Refract in YAML format', () => {
+    it('is identified as Refract in YAML format', function() {
       sources.forEach((source) => {
         assert.equal(identify(source), 'application/vnd.refract.api-description+yaml');
       });
     });
   });
 
-  describe('YAML file with parseResult namespace', () => {
+  describe('YAML file with parseResult namespace', function() {
     const sources = [
       dedent`
         element: "parseResult"
@@ -449,10 +447,10 @@ describe('Refract API Description namespace', () => {
               classes:
                 - "api"
               title: "DescriptionExample"
-      `
+      `,
     ];
 
-    it('isn\'t identified as Refract', () => {
+    it('isn\'t identified as Refract', function() {
       sources.forEach((source) => {
         assert.notEqual(identify(source), 'application/vnd.refract.api-description+yaml');
       });
