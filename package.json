@@ -8,7 +8,7 @@
     "lint:fix": "eslint --ext .js src test --fix",
     "precompile": "npm run lint",
     "compile": "babel src/ --out-dir lib/",
-    "prepublish": "npm run compile",
+    "prepublishOnly": "npm run compile",
     "server-test": "mocha --compilers es6:babel/register -R spec --recursive",
     "browser-test": "karma start",
     "test": "npm run server-test && npm run browser-test && npm run lint"
