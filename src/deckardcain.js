@@ -1,5 +1,6 @@
 export const API_BLUEPRINT_HEADER = /^[\uFEFF]?(((VERSION:( |\t)2)|(FORMAT:( |\t)(X-)?1A))\s*?([\n\r]{1,2}|$))/i;
-export const API_BLUEPRINT_RESPONSE = /\+\s+(?:response|request)\s+\d{3}/i;
+export const API_BLUEPRINT_LISTITEM = /[-\*\+]\s+(response|request|attributes?)/i;
+export const API_BLUEPRINT_DATA = /#+\s+data structures?\s*\n/i;
 
 export const LEGACY_BLUEPRINT_TITLE = /[-]{3}(?=( [^\n\r]+ | )[-]{3}([\n\r]{1,2}|[.]{0}))/i;
 
@@ -57,7 +58,7 @@ export function identify(source) {
     return 'text/vnd.legacyblueprint';
   }
 
-  if (source.match(API_BLUEPRINT_RESPONSE)) {
+  if (source.match(API_BLUEPRINT_LISTITEM) || source.match(API_BLUEPRINT_DATA)) {
     // Didn't find '--- Sample Title ---' and at the same time
     // there is something like '+ Response 200' in the document, which is
     // pretty distinctive for API Blueprint.

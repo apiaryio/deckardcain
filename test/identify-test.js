@@ -121,6 +121,45 @@ describe('API Blueprint', function() {
     });
   });
 
+  describe('without FORMAT header but with any typical response with `-`', function() {
+    const source = dedent`
+      # /messages/{id}
+
+      ## DELETE
+      - Response 204
+    `;
+
+    it('is identified as API Blueprint', function() {
+      assert.equal(identify(source), 'text/vnd.apiblueprint');
+    });
+  });
+
+
+  describe('without FORMAT header but with any typical response with `*`', function() {
+    const source = dedent`
+      # /messages/{id}
+
+      ## DELETE
+      * Response 204
+    `;
+
+    it('is identified as API Blueprint', function() {
+      assert.equal(identify(source), 'text/vnd.apiblueprint');
+    });
+  });
+
+  describe('without FORMAT header but with any typical attributes', function() {
+    const source = dedent`
+      # /messages/{id}
+      + Attributes
+          + id (string)
+    `;
+
+    it('is identified as API Blueprint', function() {
+      assert.equal(identify(source), 'text/vnd.apiblueprint');
+    });
+  });
+
   describe('with no new line at the end', function() {
     const source = 'FORMAT: 1A';
 
@@ -129,7 +168,7 @@ describe('API Blueprint', function() {
     });
   });
 
-  describe('without FORMAT header or any typical response', function() {
+  describe('without FORMAT header or any typical response but with Data Structures', function() {
     const source = dedent`
       # Data Structures API
 
@@ -137,6 +176,31 @@ describe('API Blueprint', function() {
 
       ### Coupon Base (object)
       + redeem_by (number) - Date after which the coupon can no longer be redeemed
+    `;
+
+    it('is identified as API Blueprint', function() {
+      assert.equal(identify(source), 'text/vnd.apiblueprint');
+    });
+  });
+
+  describe('without FORMAT header or any typical response but with Data Structure', function() {
+    const source = dedent`
+      # Data Structures API
+
+      ## Data Structure
+
+      ### Coupon Base (object)
+      + redeem_by (number) - Date after which the coupon can no longer be redeemed
+    `;
+
+    it('is identified as API Blueprint', function() {
+      assert.equal(identify(source), 'text/vnd.apiblueprint');
+    });
+  });
+
+  describe('without FORMAT header or any typical response or data', function() {
+    const source = dedent`
+      # Data Structures API
     `;
 
     it('is not identified', function() {
