@@ -248,6 +248,22 @@ describe('Swagger', function() {
     });
   });
 
+  describe('Swagger file with arbitrary valid JSON content and multiple spaces between "swagger" key, colon and value', function() {
+    const source = dedent`
+      {
+        "swagger"  :  "2.0",
+        "host": "example.com",
+        "basePath": "/api",
+        "schemes": ["http"],
+        "paths": {}
+      }
+    `;
+
+    it('is identified as Swagger', function() {
+      assert.equal(identify(source), 'application/swagger+json');
+    });
+  });
+
   describe('Swagger file with arbitrary valid JSON content, but swagger key isn\'t first', function() {
     const source = dedent`
       {
@@ -390,6 +406,16 @@ describe('Refract API Description namespace', function() {
         "element": "category"
       }`,
       '{"element":"category","meta":{"classes":["api"]}}',
+      dedent`
+      {
+        "meta": {
+          "classes" : [
+            "api"
+          ]
+        },
+        "element"  : "category"
+      }`,
+      '{"element" :"category","meta":{"classes" :  ["api"]}}',
     ];
 
     it('is identified as Refract in JSON format', function() {
@@ -402,6 +428,7 @@ describe('Refract API Description namespace', function() {
   describe('JSON file with parseResult namespace', function() {
     const sources = [
       '{"element":"parseResult","meta":{},"attributes":{},"content":[{"element":"category","meta":{"classes":["api"],"title":"DescriptionExample"}}]}',
+      '{"element"  : "parseResult","meta":{},"attributes":{},"content":[{"element":"category","meta":{"classes":["api"],"title":"DescriptionExample"}}]}',
     ];
 
     it('isn\'t identified as Refract', function() {
