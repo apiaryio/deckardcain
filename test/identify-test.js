@@ -548,3 +548,171 @@ describe('Refract API Description namespace', function() {
     });
   });
 });
+
+describe('OpenAPI', function() {
+  describe('OpenAPI file with arbitrary valid JSON content', function() {
+    const source = dedent`
+      {
+        "openapi": "3.0.0",
+        "info" : {
+           "title" : "api",
+           "version" : "1.0.0"
+	},
+        "paths": {}
+      }
+    `;
+
+    it('is identified as OpenAPI', function() {
+      assert.equal(identify(source), 'application/vnd.oai.openapi+json');
+    });
+  });
+
+  describe('OpenAPI file with arbitrary valid JSON content and multiple spaces between "openapi" key, colon and value', function() {
+    const source = dedent`
+      {
+        "openapi"   :    "3.0.0",
+        "info" : {
+           "title" : "api",
+           "version" : "1.0.0"
+	},
+        "paths": {}
+      }
+    `;
+
+    it('is identified as Swagger', function() {
+      assert.equal(identify(source), 'application/vnd.oai.openapi+json');
+    });
+  });
+
+  describe('OpenAPI file with arbitrary valid JSON content, but openapi key is later in document', function() {
+    const source = dedent`
+      {
+        "info" : {
+           "title" : "api",
+           "version" : "1.0.0"
+	},
+        "paths": {}
+        "openapi": "3.0.0",
+      }
+    `;
+
+    it('is identified as OpenAPI', function() {
+      assert.equal(identify(source), 'application/vnd.oai.openapi+json');
+    });
+  });
+
+  describe('OpenAPI file with arbitrary valid YAML content', function() {
+    const source = dedent`
+      ---
+      # comment
+      openapi: "3.0.0"
+      info:
+        title: "api title"
+        version: "1.0.0"
+      paths: {}
+    `;
+
+    it('is identified as OpenAPI', function() {
+      assert.equal(identify(source), 'application/vnd.oai.openapi');
+    });
+  });
+
+  describe('OpenAPI file with arbitrary valid YAML content, where openapi key is not first', function() {
+    const source = dedent`
+      ---
+      # comment
+      info:
+        title: "api title"
+        version: "1.0.0"
+      openapi: "3.0.0"
+      paths: {}
+    `;
+
+    it('is identified as OpenAPI', function() {
+      assert.equal(identify(source), 'application/vnd.oai.openapi');
+    });
+  });
+
+  describe('OpenAPI with some higher patch version', function() {
+    const source = dedent`
+      ---
+      # comment
+      openapi: "3.0.13"
+      info:
+        title: "api title"
+        version: "1.0.0"
+       paths: {}
+    `;
+
+    it('is identified as OpenAPI', function() {
+      assert.equal(identify(source), 'application/vnd.oai.openapi');
+    });
+  });
+
+  describe('YAML with nan valid semantic version', function() {
+    const source = dedent`
+      ---
+      # comment
+      openapi: "3.0"
+      info:
+        title: "api title"
+        version: "1.0.0"
+       paths: {}
+    `;
+
+    it('is not identified as valit OpenAPI', function() {
+      assert.equal(identify(source), null);
+    });
+  });
+
+  describe('YAML file with arbitrary valid content', function() {
+    const source = dedent`
+      --- !clarkevans.com/^invoice
+      invoice: 34843
+      date   : 2001-01-23
+      bill-to: &id001
+          given  : Chris
+          family : Dumars
+          address:
+              lines: |
+                  458 Walkman Dr.
+                  Suite #292
+              city    : Royal Oak
+              state   : MI
+              postal  : 48046
+      ship-to: *id001
+      product:
+          - sku         : BL394D
+            quantity    : 4
+            description : Basketball
+            price       : 450.00
+          - sku         : BL4438H
+            quantity    : 1
+            description : Super Hoop
+            price       : 2392.00
+      tax  : 251.42
+      total: 4443.52
+      comments: >
+          Late afternoon is best.
+          Backup contact is Nancy
+          Billsmer @ 338-4338.
+      `;
+
+    it('is not identified', function() {
+      assert.equal(identify(source), null);
+    });
+  });
+
+  describe('Something that is OpenAPI but contains Blueprint stuff', function() {
+    const sources = [
+      '{"openapi":"3.0.0","content":"--- Ha ha ha ---"}',
+      '{"openapi":"3.0.2","content":"+ Response 200"}',
+    ];
+
+    it('is identified as OpenAPI', function() {
+      sources.forEach((source) => {
+        assert.equal(identify(source), 'application/vnd.oai.openapi+json');
+      });
+    });
+  });
+});
