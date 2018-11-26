@@ -557,7 +557,7 @@ describe('OpenAPI', function() {
         "info" : {
            "title" : "api",
            "version" : "1.0.0"
-	},
+        },
         "paths": {}
       }
     `;
@@ -574,7 +574,7 @@ describe('OpenAPI', function() {
         "info" : {
            "title" : "api",
            "version" : "1.0.0"
-	},
+        },
         "paths": {}
       }
     `;
@@ -590,7 +590,7 @@ describe('OpenAPI', function() {
         "info" : {
            "title" : "api",
            "version" : "1.0.0"
-	},
+        },
         "paths": {}
         "openapi": "3.0.0",
       }
@@ -638,6 +638,22 @@ describe('OpenAPI', function() {
       ---
       # comment
       openapi: "3.0.13"
+      info:
+        title: "api title"
+        version: "1.0.0"
+       paths: {}
+    `;
+
+    it('is identified as OpenAPI', function() {
+      assert.equal(identify(source), 'application/vnd.oai.openapi');
+    });
+  });
+
+  describe('OpenAPI with some higher minor version', function() {
+    const source = dedent`
+      ---
+      # comment
+      openapi: "3.1.0"
       info:
         title: "api title"
         version: "1.0.0"
