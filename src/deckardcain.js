@@ -7,6 +7,9 @@ export const LEGACY_BLUEPRINT_TITLE = /[-]{3}(?=( [^\n\r]+ | )[-]{3}([\n\r]{1,2}
 export const SWAGGER_JSON = /^[\uFEFF]?{[\s\S]*["']swagger["']\s*:\s*["']\d\.\d["'],?/i;
 export const SWAGGER_YAML = /(?:^|\n)\s*swagger: ["']\d\.\d["']\n/i;
 
+export const OPENAPI_JSON = /^[\uFEFF]?{[\s\S]*["']openapi["']\s*:\s*["']\d\.\d+.\d+["'],?/i;
+export const OPENAPI_YAML = /(?:^|\n)\s*openapi: ["']\d\.\d+.\d+["']\n/i;
+
 export const REFRACT_API_DESCRIPTION_ELEMENT_JSON = /[\uFEFF]?\n?\s*["']element["']\s*:\s*["']category["']/i;
 export const REFRACT_API_DESCRIPTION_CLASS_JSON = /"meta"\s*:\s*\{\s*"classes"\s*:\s*\[\s*"api"\s*\]/i;
 export const REFRACT_PARSE_RESULT_ELEMENT_JSON = /[\uFEFF]?\n?\s*["']element["']\s*:\s*["']parseResult["']/i;
@@ -33,6 +36,15 @@ export function identify(source) {
 
   if (source.match(SWAGGER_JSON)) {
     return 'application/swagger+json';
+  }
+
+  // see https://stackoverflow.com/questions/52541842/what-is-the-media-type-of-an-openapi-schema
+  if (source.match(OPENAPI_YAML)) {
+    return 'application/vnd.oai.openapi';
+  }
+
+  if (source.match(OPENAPI_JSON)) {
+    return 'application/vnd.oai.openapi+json';
   }
 
   if (source.match(REFRACT_API_DESCRIPTION_ELEMENT_JSON) &&

@@ -6,7 +6,7 @@ import {
   SWAGGER_JSON, SWAGGER_YAML, REFRACT_API_DESCRIPTION_ELEMENT_JSON,
   REFRACT_API_DESCRIPTION_CLASS_JSON, REFRACT_PARSE_RESULT_ELEMENT_JSON,
   REFRACT_API_DESCRIPTION_ELEMENT_YAML, REFRACT_API_DESCRIPTION_CLASS_YAML,
-  REFRACT_PARSE_RESULT_ELEMENT_YAML,
+  REFRACT_PARSE_RESULT_ELEMENT_YAML, OPENAPI_JSON, OPENAPI_YAML,
 } from '../src/deckardcain';
 
 
@@ -28,6 +28,15 @@ describe('Swagger', function() {
   });
   it('test SWAGGER_YAML', function() {
     assert.isTrue(safe(SWAGGER_YAML));
+  });
+});
+
+describe('OpenAPI', function() {
+  it('test OPENAPI_JSON', function() {
+    assert.isTrue(safe(OPENAPI_JSON));
+  });
+  it('test OPENAPI_YAML', function() {
+    assert.isTrue(safe(OPENAPI_YAML));
   });
 });
 
