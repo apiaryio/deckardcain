@@ -617,6 +617,22 @@ describe('OpenAPI', function() {
     });
   });
 
+  describe('OpenAPI file in YAML format with unquoted version string', function() {
+    const source = dedent`
+      ---
+      # comment
+      openapi: 3.0.0
+      info:
+        title: "api title"
+        version: "1.0.0"
+      paths: {}
+    `;
+
+    it('is identified as OpenAPI', function() {
+      assert.equal(identify(source), 'application/vnd.oai.openapi');
+    });
+  });
+
   describe('OpenAPI file with arbitrary valid YAML content, where openapi key is not first', function() {
     const source = dedent`
       ---

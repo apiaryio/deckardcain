@@ -8,7 +8,7 @@ export const SWAGGER_JSON = /^[\uFEFF]?{[\s\S]*["']swagger["']\s*:\s*["']\d\.\d[
 export const SWAGGER_YAML = /(?:^|\n)\s*swagger: ["']\d\.\d["']\n/i;
 
 export const OPENAPI_JSON = /^[\uFEFF]?{[\s\S]*["']openapi["']\s*:\s*["']\d\.\d+.\d+["'],?/i;
-export const OPENAPI_YAML = /(?:^|\n)\s*openapi: ["']\d\.\d+.\d+["']\n/i;
+export const OPENAPI_YAML = /^\s*(["']?)openapi\1\s*:\s*(["']?)\d\.\d+.\d+\2$/mi;
 
 export const REFRACT_API_DESCRIPTION_ELEMENT_JSON = /[\uFEFF]?\n?\s*["']element["']\s*:\s*["']category["']/i;
 export const REFRACT_API_DESCRIPTION_CLASS_JSON = /"meta"\s*:\s*\{\s*"classes"\s*:\s*\[\s*"api"\s*\]/i;
